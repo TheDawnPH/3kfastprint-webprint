@@ -3,6 +3,8 @@
 $cmd = "mkdir uploads && icacls uploads /grant Everyone:F /t";
 exec($cmd);
 
+date_default_timezone_set('Asia/Manila');
+
 // Database connection
 define('DB_SERVER', "localhost");
 define('DB_USERNAME', "root");
@@ -20,8 +22,9 @@ if ($conn == false) {
     // create table if not exists
     $sql = "CREATE TABLE IF NOT EXISTS `print-service`.`print` ( `id` INT NOT NULL AUTO_INCREMENT , `name` TEXT NOT NULL , `phone` VARCHAR(255) NOT NULL , `size` VARCHAR(255) NOT NULL , `color` VARCHAR(255) NOT NULL , `file` TEXT NOT NULL , `copies` int(255) NOT NULL , `status` VARCHAR(255) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;";
     $sql2 = "CREATE TABLE IF NOT EXISTS `print-service`.`users` ( `id` INT NOT NULL AUTO_INCREMENT , `username` VARCHAR(255) NOT NULL , `pass` TEXT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;";
+    $sql5 = "CREATE TABLE IF NOT EXISTS `print-service`.`announcement` ( `id` INT NOT NULL AUTO_INCREMENT , `title` TEXT NOT NULL , `content` TEXT NOT NULL , `date` TEXT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;";
     // execute query
-    if (mysqli_query($conn, $sql) && mysqli_query($conn, $sql2)) {
+    if (mysqli_query($conn, $sql) && mysqli_query($conn, $sql2) && mysqli_query($conn, $sql5)) {
         // echo "Table created successfully";
     } else {
         echo "Error creating table: " . mysqli_error($conn);

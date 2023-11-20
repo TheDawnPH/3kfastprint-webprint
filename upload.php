@@ -13,7 +13,7 @@ function test_input($data) {
 $name = $phone = $size = $color = $copies = $status = "";
 $name_err = $phone_err = $size_err = $color_err = $copies_err = "";
 $filename_array = array();
-$warning = $success = "";
+$warning = $success = $success_heading = "";
 
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -102,7 +102,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($stmt->execute()) {
             // Get id of last inserted record
             $id = $stmt->insert_id;
-            $success = "Your files have been uploaded successfully. Please remember your ID code for this printing job: " . $id . ".";
+            $success_heading = "Your print ID is: " . $id . "";
+            $success = "Your files have been uploaded successfully. Please remember your ID code for this printing job:";
         } else {
             $warning = "Something went wrong, please try again.";
         }
@@ -139,6 +140,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     echo $warning;
                 } else if (!empty($success)) {
                     echo '<div class="alert alert-success" role="alert">';
+                    echo '<h1 class="alert-heading">'. $success_heading . '</h1>';
                     echo $success;
                     echo '</div>';
                 }
@@ -179,6 +181,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </div>
     </div>
+    <?php include 'footer.php'; ?>
 </body>
 
 </html>

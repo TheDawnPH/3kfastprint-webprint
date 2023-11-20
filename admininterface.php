@@ -7,41 +7,78 @@ if (!isset($_SESSION['loggedin'])) {
     exit;
 }
 
-if (isset($_POST['submit'])) {
-    $sql2 = "SELECT * FROM print";
-    $result = mysqli_query($conn, $sql2);
-    $row = mysqli_fetch_array($result);
-
-    if (!empty($_POST['select']) && in_array($row['id'], $_POST['select'])) {
-        $stmt = $conn->prepare("UPDATE print SET status = 'done' WHERE id = ?");
-        $stmt->bind_param("i", $row['id']);
-        // download files from specific id without using zip
-        $sql = "SELECT * FROM print WHERE id = '" . $row['id'] . "'";
-        $result = mysqli_query($conn, $sql);
-        $row = mysqli_fetch_assoc($result);
-        $param = $row['file'];
-        $array = explode(", ", $param);
-        $directory = "uploads/" . $row['phone'];
-        foreach ($array as $value) {
-            $file = $directory . "/" . $value;
-            if (file_exists($file)) {
-                header('Content-Description: File Transfer');
-                header('Content-Type: application/octet-stream');
-                header('Content-Disposition: attachment; filename="' . basename($file) . '"');
-                header('Content-Transfer-Encoding: binary');
-                header('Expires: 0');
-                header('Cache-Control: must-revalidate');
-                header('Pragma: public');
-                header('Content-Length: ' . filesize($file));
-                ob_clean();
-                flush();
-                readfile($file);
-            }
-        }
-    }
+function test_input($data) {
+    $data = htmlspecialchars($data);
+    $data = nl2br($data);
+    return $data;
 }
 
+// Initialize variables
+$title = $content = "";
+$title_err = $content_err = "";
+
+// Processing form data when form is submitted
+if (isset($_POST['submit2'])) {
+        // Check if title is empty
+        if (empty(trim($_POST["title"]))) {
+            $title_err = '<div class="alert alert-danger" role="alert">Please enter title.</div>';
+        } else {
+            $title = test_input($_POST["title"]);
+        }
+    
+        // Check if content is empty
+        if (empty(trim($_POST["content"]))) {
+            $content_err = '<div class="alert alert-danger" role="alert">Please enter content.</div>';
+        } else {
+            $content = test_input($_POST["content"]);
+        }
+    
+        // Check input errors before inserting in database
+        if (empty($title_err) && empty($content_err)) {
+            $sql = "INSERT INTO announcement (title, content, date) VALUES (?, ?, ?)";
+            $stmt = mysqli_prepare($conn, $sql);
+            mysqli_stmt_bind_param($stmt, "sss", $param_title, $param_content, $param_date);
+    
+            // Set parameters
+            $param_title = $title;
+            $param_content = $content;
+            $param_date = date("Y-m-d h:ia");
+    
+            // Attempt to execute the prepared statement
+            if (mysqli_stmt_execute($stmt)) {
+                $success = '<div class="alert alert-success" role="alert">Announcement has been posted!</div>';
+            } else {
+                $warning = '<div class="alert alert-warning" role="alert">Something went wrong. Please try again later.</div>';
+            }
+    
+            // Close statement
+            mysqli_stmt_close($stmt);
+        }
+}
+
+if (isset($_POST['submit'])) {
+    if (!empty($_POST['select'])) {
+        $selectedIds = $_POST['select'];
+
+        foreach ($selectedIds as $id) {
+            $stmt = $conn->prepare("UPDATE print SET status = 'done' WHERE id = ?");
+            $stmt->bind_param("i", $id);
+            $stmt->execute();        
+        }
+
+        // Optionally, you can add a message to indicate that the download is complete
+        // echo "<script>alert('Files download initiated and status updated to done for selected checkboxes!')</script>";
+
+        // Now, you can refresh the page if needed
+        // echo '<script>location.reload(true);</script>';
+        echo "<script>alert('Records has been updated!')</script>";
+    } else {
+        echo "<script>alert('Please select at least one checkbox!')</script>";
+    }
+}
 ?>
+
+
 
 <html>
 
@@ -53,6 +90,11 @@ if (isset($_POST['submit'])) {
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+    function refreshPage() {
+        location.reload(true);
+    }
+    </script>
 </head>
 
 <body>
@@ -60,13 +102,25 @@ if (isset($_POST['submit'])) {
     <div class="container">
         <div class="row">
             <div class="col-md-12">
+                <?php
+                if (!empty($warning)) {
+                    echo $warning;
+                } else if (!empty($success)) {
+                    echo $success;
+                }
+                ?>
+            </div>
+            <div class="col-md-12">
                 <p style="font-family: Kagitingan, sans-serif; font-size: 60px; text-align: center;">3K Fast Print</p>
                 <hr>
                 <h4 style="text-align: center;">Hello Admin, please check all your printing queue from web upload!</h4>
                 <br>
 
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" autocomplete="off">
-                    <input type="submit" name="submit" value="Update Status" class="btn btn-primary"><br><br>
+                    <input type="submit" name="submit" value="Update Status" class="btn btn-primary">
+                    <input type="button" value="Refresh Page" class="btn btn-primary" onclick="refreshPage()">
+                    <input type="button" value="View Archives" class="btn btn-secondary"
+                        onclick="window.location.href='archives.php'"><br><br>
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -120,10 +174,21 @@ if (isset($_POST['submit'])) {
                             ?>
                         </tbody>
                     </table>
-
+                </form>
+                <hr>
+            </div>
+            <div class="col-md-12">
+                <h5>Announcement Maker</h5>
+                <p>To Modify or delete announcement post, please modify it directly to database.</p>
+                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" autocomplete="off">
+                    <input type="text" name="title" class="form-control" placeholder="Enter Title" required><br>
+                    <textarea name="content" class="form-control" placeholder="Enter Content" required></textarea><br>
+                    <input type="submit" name="submit2" value="Add Announcement" class="btn btn-primary">
                 </form>
             </div>
         </div>
+    </div>
+    <?php include 'footer.php'; ?>
 </body>
 
 </html>
