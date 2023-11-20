@@ -121,9 +121,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>3K Fast Prints - Web Upload</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="b5-min.css">
-    <script src="b5-min.js"></script>
     <script src="b5-bundle.min.js"></script>
-    <script src="jq.min.css"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
