@@ -86,6 +86,7 @@ if (isset($_POST['submit'])) {
 
 <head>
     <title>3K Fast Prints - ADMIN</title>
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="b5-min.css">
     <script src="b5-min.js"></script>
     <script src="b5-bundle.min.js"></script>
@@ -122,21 +123,22 @@ if (isset($_POST['submit'])) {
                     <input type="button" value="Refresh Page" class="btn btn-primary" onclick="refreshPage()">
                     <input type="button" value="View Archives" class="btn btn-secondary"
                         onclick="window.location.href='archives.php'"><br><br>
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Name of Customer</th>
-                                <th scope="col">Phone Number</th>
-                                <th scope="col">Size</th>
-                                <th scope="col">Color</th>
-                                <th scope="col">Copies</th>
-                                <th scope="col">File</th>
-                                <th scope="col">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Name of Customer</th>
+                                    <th scope="col">Phone Number</th>
+                                    <th scope="col">Size</th>
+                                    <th scope="col">Color</th>
+                                    <th scope="col">Copies</th>
+                                    <th scope="col">File</th>
+                                    <th scope="col">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
                             $sql = "SELECT * FROM print where status = 'pending'";
                             $result = mysqli_query($conn, $sql);
                             if (mysqli_num_rows($result) > 0) {
@@ -173,8 +175,9 @@ if (isset($_POST['submit'])) {
                                 }
                             }
                             ?>
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </form>
                 <hr>
             </div>

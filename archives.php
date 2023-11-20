@@ -19,9 +19,9 @@ if (!isset($_SESSION['loggedin'])) {
     <script src="jq.min.css"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script>
-        function refreshPage() {
-            location.reload(true);
-        }
+    function refreshPage() {
+        location.reload(true);
+    }
     </script>
 </head>
 
@@ -34,8 +34,10 @@ if (!isset($_SESSION['loggedin'])) {
                 <hr>
                 <h4 style="text-align: center;">Hello Admin, please check all your printing queue from web upload!</h4>
                 <br>
-                <input type="button" value="⬅ Go Back" class="btn btn-secondary" onclick="window.location.href='admininterface.php'">
-                    <input type="button" value="Refresh Page" class="btn btn-primary" onclick="refreshPage()"><br><br>
+                <input type="button" value="⬅ Go Back" class="btn btn-secondary"
+                    onclick="window.location.href='admininterface.php'">
+                <input type="button" value="Refresh Page" class="btn btn-primary" onclick="refreshPage()"><br><br>
+                <div class="table-responsive">
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -89,6 +91,7 @@ if (!isset($_SESSION['loggedin'])) {
                             ?>
                         </tbody>
                     </table>
+                </div>
             </div>
         </div>
     </div>
