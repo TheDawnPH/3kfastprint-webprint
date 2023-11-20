@@ -9,6 +9,8 @@ if (!isset($_SESSION['loggedin'])) {
 
 function test_input($data) {
     $data = htmlspecialchars($data);
+    $data = str_replace("&lt;b&gt;", "<b>", $data);
+    $data = str_replace("&lt;/b&gt;", "</b>", $data);
     $data = nl2br($data);
     return $data;
 }
