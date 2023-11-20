@@ -11,12 +11,12 @@ if (!isset($_SESSION['loggedin'])) {
 <html>
 
 <head>
-    <title>3K Fast Print - ADMIN</title>
+    <title>3K Fast Prints - ADMIN</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.bundle.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <link rel="stylesheet" href="b5-min.css">
+    <script src="b5-min.js"></script>
+    <script src="b5-bundle.min.js"></script>
+    <script src="jq.min.css"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script>
         function refreshPage() {
@@ -30,7 +30,7 @@ if (!isset($_SESSION['loggedin'])) {
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <p style="font-family: Kagitingan, sans-serif; font-size: 60px; text-align: center;">3K Fast Print</p>
+                <p style="font-family: Kagitingan, sans-serif; font-size: 60px; text-align: center;">3K Fast Prints</p>
                 <hr>
                 <h4 style="text-align: center;">Hello Admin, please check all your printing queue from web upload!</h4>
                 <br>

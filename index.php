@@ -10,12 +10,12 @@ $result = mysqli_query($conn, $sql);
 <html>
 
 <head>
-    <title>3K Fast Print - Web Upload</title>
+    <title>3K Fast Prints</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.bundle.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <link rel="stylesheet" href="b5-min.css">
+    <script src="b5-min.js"></script>
+    <script src="b5-bundle.min.js"></script>
+    <script src="jq.min.css"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
