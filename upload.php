@@ -103,7 +103,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Get id of last inserted record
             $id = $stmt->insert_id;
             $success_heading = "Your print ID is: " . $id . "";
-            $success = "Your files have been uploaded successfully. Please remember your ID code for this printing job:";
+            $success = "Your files have been uploaded successfully. Please remember your ID code for this printing job.";
         } else {
             $warning = "Something went wrong, please try again.";
         }
@@ -144,7 +144,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 }
                 ?>
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post"
-                    enctype="multipart/form-data" autocomplete="off">
+                    enctype="multipart/form-data" autocomplete="off" id="printForm">
                     <div class="form-group">
                         <label for="name">Name</label>
                         <input type="text" name="name" class="form-control" placeholder="Enter your name"
@@ -170,10 +170,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <input type="text" name="copies" class="form-control" placeholder="Enter number of copies"
                             value="<?php echo $copies; ?>" required><br>
                         <label for="file">Upload File</label>
-                        <input type="file" name="files[]" id="files" class="form-control" multiple>
+                        <input type="file" name="files[]" id="files" class="form-control" multiple required>
                         <br>
                         <input type="hidden" name="status" value="pending">
-                        <input type="submit" name="submit" value="Submit" class="btn btn-primary">
+                        <input type="submit" name="submit" value="Submit" class="btn btn-success btn-lg">
                     </div>
                 </form>
             </div>
